@@ -17,7 +17,9 @@ Repositorio del módulo **Diseño de Interfaces Web (DIW)** del ciclo formativo 
 
 Aquí encontrarás, organizados por capítulos, **los ejemplos que vemos en clase**, la teoría en PDF y los ejercicios para practicar. Cada ejemplo es autónomo: puedes verlo directamente en el navegador o descargarlo y abrir su `index.html`.
 
-> 🌐 **Ver los ejemplos en vivo:** https://TU_USUARIO.github.io/diw-2daw/
+<p align="center">
+  <a href="https://moicpifp.github.io/diw-2daw/"><img src="https://img.shields.io/badge/%E2%96%B6%20Ver%20todos%20los%20ejemplos%20en%20vivo-moicpifp.github.io%2Fdiw--2daw-312E81?style=for-the-badge" alt="Ver los ejemplos en vivo"></a>
+</p>
 
 ---
 
@@ -39,16 +41,16 @@ Aquí encontrarás, organizados por capítulos, **los ejemplos que vemos en clas
 
 ### Tema 2 · CSS3 Avanzado
 
-| Cap. | Contenido | Qué aprenderás | Carpeta |
-|:---:|---|---|:---:|
-| 1 | ✨ **Efectos visuales** | Sombras, degradados, bordes redondeados, transformaciones y filtros | [📂](T02-css3-avanzado/C01-efectos-visuales/) |
-| 2 | 🎯 **Selectores** | Selectores de atributo, combinadores, pseudoclases y pseudoelementos | [📂](T02-css3-avanzado/C02-selectores/) |
-| 3 | 🎬 **Animaciones** | Transiciones, `@keyframes` y propiedades de animación | [📂](T02-css3-avanzado/C03-animaciones/) |
-| 4 | 📦 **Flexbox** | Contenedores y elementos flexibles, alineación y distribución | [📂](T02-css3-avanzado/C04-flexbox/) |
-| 5 | 🔲 **Grid Layout** | Rejillas, áreas, líneas y diseño bidimensional | [📂](T02-css3-avanzado/C05-grid-layout/) |
-| 6 | 📱 **Web Responsive** | Viewport, media queries, unidades relativas e imágenes adaptables | [📂](T02-css3-avanzado/C06-web-responsive/) |
-| 7 | 🛠️ **Herramientas CSS** | Herramientas y recursos para trabajar con CSS de forma profesional | [📂](T02-css3-avanzado/C07-herramientas-css/) |
-| — | 📝 **Ejercicios** | Ejercicios de repaso de todo el tema | [📂](T02-css3-avanzado/ejercicios/) |
+| Cap. | Contenido | Qué aprenderás | En vivo | Código |
+|:---:|---|---|:---:|:---:|
+| 1 | ✨ **Efectos visuales** | Sombras, degradados, bordes redondeados, transformaciones y filtros | [▶ Ver](https://moicpifp.github.io/diw-2daw/#c01) | [📂](T02-css3-avanzado/C01-efectos-visuales/) |
+| 2 | 🎯 **Selectores** | Selectores de atributo, combinadores, pseudoclases y pseudoelementos | [▶ Ver](https://moicpifp.github.io/diw-2daw/#c02) | [📂](T02-css3-avanzado/C02-selectores/) |
+| 3 | 🎬 **Animaciones** | Transiciones, `@keyframes` y propiedades de animación | [▶ Ver](https://moicpifp.github.io/diw-2daw/#c03) | [📂](T02-css3-avanzado/C03-animaciones/) |
+| 4 | 📦 **Flexbox** | Contenedores y elementos flexibles, alineación y distribución | [▶ Ver](https://moicpifp.github.io/diw-2daw/#c04) | [📂](T02-css3-avanzado/C04-flexbox/) |
+| 5 | 🔲 **Grid Layout** | Rejillas, áreas, líneas y diseño bidimensional | [▶ Ver](https://moicpifp.github.io/diw-2daw/#c05) | [📂](T02-css3-avanzado/C05-grid-layout/) |
+| 6 | 📱 **Web Responsive** | Viewport, media queries, unidades relativas e imágenes adaptables | [▶ Ver](https://moicpifp.github.io/diw-2daw/#c06) | [📂](T02-css3-avanzado/C06-web-responsive/) |
+| 7 | 🛠️ **Herramientas CSS** | Herramientas y recursos para trabajar con CSS de forma profesional | [▶ Ver](https://moicpifp.github.io/diw-2daw/#c07) | [📂](T02-css3-avanzado/C07-herramientas-css/) |
+| — | 📝 **Ejercicios** | Ejercicios de repaso de todo el tema | [▶ Ver](https://moicpifp.github.io/diw-2daw/#ejercicios-t02) | [📂](T02-css3-avanzado/ejercicios/) |
 
 ---
 
@@ -57,6 +59,8 @@ Aquí encontrarás, organizados por capítulos, **los ejemplos que vemos en clas
 ```
 diw-2daw/
 ├── README.md
+├── index.html                    ← Web con todos los ejemplos (GitHub Pages)
+├── .github/                      ← Publicación automática de la web
 ├── recursos/                     ← Imágenes y material común
 ├── T02-css3-avanzado/
 │   ├── C01-efectos-visuales/
@@ -77,8 +81,8 @@ diw-2daw/
 
 ## 🚀 Cómo usar este repositorio
 
-**Opción 1 · Verlo en el navegador**
-Entra en la web de GitHub Pages del repositorio y navega hasta el ejemplo que quieras.
+**Opción 1 · Verlo en el navegador** *(lo más rápido)*
+Entra en **[moicpifp.github.io/diw-2daw](https://moicpifp.github.io/diw-2daw/)**. Allí están todos los ejemplos ordenados por capítulo, con un buscador, el botón **▶ Ver en vivo** y el enlace a su código.
 
 **Opción 2 · Descargarlo todo**
 Pulsa el botón verde **`<> Code` → `Download ZIP`**.
@@ -86,7 +90,7 @@ Pulsa el botón verde **`<> Code` → `Download ZIP`**.
 **Opción 3 · Clonarlo con Git** *(recomendado)*
 
 ```bash
-git clone https://github.com/TU_USUARIO/diw-2daw.git
+git clone https://github.com/MoiCPIFP/diw-2daw.git
 cd diw-2daw
 ```
 
@@ -95,6 +99,20 @@ Para traer los ejemplos nuevos que se vayan subiendo durante el curso:
 ```bash
 git pull
 ```
+
+---
+
+## ⚙️ Cómo se actualiza la web
+
+La web de ejemplos se genera sola. Cada vez que se sube un cambio a `main`, GitHub Actions recorre las carpetas, crea `ejemplos.json` y publica la web en GitHub Pages.
+
+Para añadir un ejemplo nuevo solo hay que:
+
+1. Crear su carpeta dentro de `ejemplos/` del capítulo, con número delante: `T02-css3-avanzado/C04-flexbox/ejemplos/03-galeria-flex/`.
+2. Poner dentro un `index.html` con un `<title>` descriptivo (es el nombre que aparece en la web).
+3. Hacer `git add .`, `git commit` y `git push`.
+
+En un minuto aparece en la web.
 
 ---
 

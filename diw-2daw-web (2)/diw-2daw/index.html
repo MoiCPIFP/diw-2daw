@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diseño de Interfaces Web · 2º DAW · Ejemplos de clase</title>
+  <meta name="description" content="Ejemplos de clase del módulo Diseño de Interfaces Web de 2º DAW, organizados por capítulos.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23312e81'/><rect x='12' y='14' width='40' height='8' rx='3' fill='%2322d3ee'/><rect x='12' y='26' width='14' height='24' rx='3' fill='%23a78bfa'/><rect x='30' y='26' width='22' height='10' rx='3' fill='%23fff' fill-opacity='.5'/><rect x='30' y='40' width='22' height='10' rx='3' fill='%23f472b6'/></svg>">
+  <style>
+    :root {
+      --indigo-950: #1e1b4b;
+      --indigo-900: #312e81;
+      --cyan: #22d3ee;
+      --violet: #a78bfa;
+      --ink: #0f172a;
+      --text: #334155;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --radius: 16px;
+      --font: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+      --mono: Consolas, "SF Mono", Menlo, monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body { margin: 0; font-family: var(--font); color: var(--text); background: var(--bg); line-height: 1.5; }
+    a { color: inherit; }
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+    /* ---------- Cabecera ---------- */
+    .hero {
+      position: relative; overflow: hidden; color: #fff;
+      background: linear-gradient(135deg, var(--indigo-950) 0%, var(--indigo-900) 55%, #0e7490 100%);
+    }
+    .hero::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero .wrap { position: relative; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; padding-top: 56px; padding-bottom: 56px; }
+    .eyebrow { margin: 0 0 10px; font-size: 14px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #67e8f9; }
+    .hero h1 { margin: 0; font-size: clamp(34px, 5vw, 56px); line-height: 1.08; font-weight: 800; letter-spacing: -.02em; }
+    .hero .bar { width: 140px; height: 6px; border-radius: 3px; margin: 20px 0; background: linear-gradient(90deg, var(--cyan), var(--violet)); }
+    .hero p.lead { margin: 0; font-size: 18px; color: #e0e7ff; max-width: 560px; }
+    .stats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .stat { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); border-radius: 12px; padding: 10px 16px; }
+    .stat b { display: block; font-size: 22px; line-height: 1.1; color: #fff; }
+    .stat span { font-size: 13px; color: #c7d2fe; }
+    .hero-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .btn-hero { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 14px; text-decoration: none; background: #fff; color: var(--indigo-950); }
+    .btn-hero.ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.4); }
+    .btn-hero:hover { transform: translateY(-1px); }
+    .browser { width: 300px; border-radius: 14px; background: var(--ink); border: 1px solid rgba(255,255,255,.25); box-shadow: 0 24px 50px rgba(0,0,0,.35); overflow: hidden; }
+    .browser .top { height: 32px; background: #1e293b; display: flex; gap: 8px; align-items: center; padding: 0 14px; }
+    .browser .top i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+    .browser .layout { display: grid; grid-template-columns: 80px 1fr 1fr; grid-template-rows: 28px 54px 54px; gap: 10px; padding: 14px; }
+    .browser .layout div { border-radius: 6px; background: rgba(255,255,255,.18); }
+    .browser .layout .h { grid-column: 1 / -1; background: var(--cyan); }
+    .browser .layout .s { grid-row: 2 / 4; background: var(--violet); }
+    .browser .layout .m { grid-column: 2 / 4; }
+    .browser .layout .p { background: #f472b6; animation: pulse 3s ease-in-out infinite; }
+    .browser code { display: block; padding: 0 14px 14px; font-family: var(--mono); font-size: 14px; color: #a5f3fc; }
+    @keyframes pulse { 50% { opacity: .55; } }
+
+    /* ---------- Barra de navegación ---------- */
+    .nav { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    .nav .wrap { display: flex; gap: 16px; align-items: center; padding-top: 12px; padding-bottom: 12px; }
+    .chips { display: flex; gap: 8px; overflow-x: auto; flex: 1; scrollbar-width: thin; padding-bottom: 2px; }
+    .chip { flex: none; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border-radius: 999px; border: 1px solid var(--line); background: #fff; font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: none; white-space: nowrap; }
+    .chip:hover, .chip.activo { border-color: var(--c); box-shadow: inset 0 0 0 1px var(--c); }
+    .chip .n { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 800; color: #fff; background: var(--c); }
+    .buscar { flex: none; position: relative; }
+    .buscar input { width: 220px; padding: 9px 12px 9px 34px; border: 1px solid var(--line); border-radius: 10px; font: inherit; font-size: 14px; background: #fff; }
+    .buscar input:focus { outline: 2px solid var(--violet); outline-offset: 1px; }
+    .buscar svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+
+    /* ---------- Contenido ---------- */
+    main { padding: 40px 0 72px; }
+    .tema-titulo { display: flex; align-items: baseline; gap: 14px; margin: 8px 0 28px; }
+    .tema-titulo h2 { margin: 0; font-size: 28px; color: var(--ink); letter-spacing: -.01em; }
+    .tema-titulo span { font-size: 14px; color: var(--muted); }
+
+    .capitulo { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 24px; overflow: hidden; }
+    .capitulo > header { display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: center; padding: 22px 24px; border-top: 5px solid var(--c); }
+    .num { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: var(--c); color: #fff; font-size: 24px; font-weight: 800; }
+    .capitulo h3 { margin: 0; font-size: 22px; color: var(--ink); }
+    .capitulo header p { margin: 2px 0 0; color: var(--muted); font-size: 15px; }
+    .acciones { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 9px; font-size: 13px; font-weight: 600; text-decoration: none; border: 1px solid var(--line); color: var(--ink); background: #fff; white-space: nowrap; }
+    .btn:hover { border-color: var(--c, var(--indigo-900)); color: var(--c, var(--indigo-900)); }
+    .btn.primario { background: var(--c, var(--indigo-900)); border-color: var(--c, var(--indigo-900)); color: #fff; }
+    .btn.primario:hover { filter: brightness(1.1); color: #fff; }
+
+    .ejemplos { list-style: none; margin: 0; padding: 0 24px 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+    .ejemplo { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); transition: transform .15s, box-shadow .15s, border-color .15s; }
+    .ejemplo:hover { transform: translateY(-2px); border-color: var(--c); box-shadow: 0 10px 24px -12px rgba(15,23,42,.25); }
+    .ejemplo .cab { display: flex; gap: 12px; align-items: flex-start; }
+    .ejemplo .idx { flex: none; font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--c); background: #fff; border: 1px solid var(--line); border-radius: 7px; padding: 3px 7px; }
+    .ejemplo h4 { margin: 0; font-size: 16px; line-height: 1.3; color: var(--ink); }
+    .ejemplo .ruta { margin: 3px 0 0; font-family: var(--mono); font-size: 12px; color: var(--muted); word-break: break-all; }
+    .ejemplo .botones { display: flex; gap: 8px; margin-top: auto; }
+    .ejemplo .botones .btn { flex: 1; justify-content: center; }
+    .vacio { margin: 0 24px 24px; padding: 18px; border: 1px dashed var(--line); border-radius: 12px; text-align: center; color: var(--muted); font-size: 15px; }
+
+    .bloque-extra { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; margin-bottom: 24px; --c: var(--indigo-900); }
+    .bloque-extra h3 { margin: 0 0 4px; color: var(--ink); font-size: 20px; }
+    .bloque-extra p { margin: 0 0 14px; color: var(--muted); }
+    .lista-archivos { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .sin-resultados, .aviso { text-align: center; padding: 40px 20px; color: var(--muted); }
+    .aviso { background: #fff7ed; border: 1px solid #fed7aa; border-radius: var(--radius); color: #9a3412; }
+    [hidden] { display: none !important; }
+
+    footer { border-top: 1px solid var(--line); background: #fff; padding: 28px 0; font-size: 14px; color: var(--muted); }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
+
+    @media (max-width: 820px) {
+      .hero .wrap { grid-template-columns: 1fr; }
+      .browser { display: none; }
+      .nav .wrap { flex-direction: column; align-items: stretch; }
+      .buscar input { width: 100%; }
+      .capitulo > header { grid-template-columns: auto 1fr; }
+      .acciones { grid-column: 1 / -1; justify-content: flex-start; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">2º DAW · Desarrollo de Aplicaciones Web</p>
+        <h1>Diseño de Interfaces Web</h1>
+        <div class="bar"></div>
+        <p class="lead">Todos los ejemplos vistos en clase, organizados por capítulos. Ábrelos en vivo o consulta su código en GitHub.</p>
+        <div class="stats">
+          <div class="stat"><b id="st-capitulos">–</b><span>capítulos</span></div>
+          <div class="stat"><b id="st-ejemplos">–</b><span>ejemplos</span></div>
+          <div class="stat"><b id="st-fecha">–</b><span>última actualización</span></div>
+        </div>
+        <div class="hero-links">
+          <a class="btn-hero" href="https://github.com/MoiCPIFP/diw-2daw" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            Ver repositorio
+          </a>
+          <a class="btn-hero ghost" href="https://github.com/MoiCPIFP/diw-2daw/archive/refs/heads/main.zip">⬇ Descargar todo (ZIP)</a>
+        </div>
+      </div>
+      <div class="browser" aria-hidden="true">
+        <div class="top"><i style="background:#f87171"></i><i style="background:#fbbf24"></i><i style="background:#34d399"></i></div>
+        <div class="layout"><div class="h"></div><div class="s"></div><div class="m"></div><div></div><div class="p"></div></div>
+        <code>display: grid;</code>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav" aria-label="Capítulos">
+    <div class="wrap">
+      <div class="chips" id="chips"></div>
+      <label class="buscar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="buscar" type="search" placeholder="Buscar ejemplo…" aria-label="Buscar ejemplo">
+      </label>
+    </div>
+  </nav>
+
+  <main class="wrap" id="contenido">
+    <p class="sin-resultados">Cargando ejemplos…</p>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>Módulo Diseño de Interfaces Web · 2º DAW · <a href="https://github.com/MoiCPIFP" target="_blank" rel="noopener">@MoiCPIFP</a></span>
+      <span>Materiales bajo licencia <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></span>
+    </div>
+  </footer>
+
+<script>
+/* ===== Configuración ===== */
+const USUARIO = "MoiCPIFP";
+const REPO = "diw-2daw";
+const RAMA = "main";
+const URL_CODIGO = `https://github.com/${USUARIO}/${REPO}/tree/${RAMA}/`;
+
+/* Títulos, descripciones y colores de cada capítulo (clave: número de capítulo) */
+const CAPITULOS = {
+  1: { titulo: "Efectos visuales", desc: "Sombras, degradados, bordes, transformaciones y filtros", color: "#6366f1" },
+  2: { titulo: "Selectores",        desc: "Atributo, combinadores, pseudoclases y pseudoelementos", color: "#7c3aed" },
+  3: { titulo: "Animaciones",       desc: "Transiciones, @keyframes y propiedades de animación",    color: "#a21caf" },
+  4: { titulo: "Flexbox",           desc: "Contenedores flexibles, alineación y distribución",       color: "#db2777" },
+  5: { titulo: "Grid Layout",       desc: "Rejillas, áreas, líneas y diseño bidimensional",          color: "#ea580c" },
+  6: { titulo: "Web Responsive",    desc: "Viewport, media queries, unidades relativas e imágenes",  color: "#0d9488" },
+  7: { titulo: "Herramientas CSS",  desc: "Herramientas y recursos para trabajar con CSS",           color: "#0891b2" },
+};
+const COLORES_EXTRA = ["#4f46e5", "#be185d", "#15803d", "#b45309"];
+const TEMAS = { 2: "CSS3 Avanzado" };
+
+/* ===== Utilidades ===== */
+const $ = (s) => document.querySelector(s);
+const esc = (t) => String(t).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const numero = (carpeta) => parseInt((carpeta.match(/^[A-Za-z]*(\d+)/) || [])[1], 10);
+const bonito = (carpeta) => {
+  const t = carpeta.replace(/^[A-Za-z]?\d+[-_ ]*/, "").replace(/[-_]/g, " ").replace(/\bia\b/gi, "IA").trim();
+  return t ? t[0].toUpperCase() + t.slice(1) : carpeta;
+};
+const quitarTildes = (t) => t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const nombrePdf = (n) => n.replace(/\.(pdf|html)$/i, "").replace(/[-_]/g, " ");
+
+/* ===== Carga de datos =====
+   1) ejemplos.json, que genera GitHub Actions en cada push.
+   2) Si no existe (p. ej. abriendo el repo en local), se consulta la API de GitHub. */
+async function cargarDatos() {
+  try {
+    const r = await fetch("ejemplos.json", { cache: "no-store" });
+    if (r.ok) return await r.json();
+  } catch (_) {}
+  const r = await fetch(`https://api.github.com/repos/${USUARIO}/${REPO}/git/trees/${RAMA}?recursive=1`);
+  if (!r.ok) throw new Error("No se pudo obtener la lista de ejemplos");
+  return desdeArbol((await r.json()).tree.map((x) => x.path));
+}
+
+function desdeArbol(rutas) {
+  const set = new Set(rutas);
+  const hijos = (base, re) => [...new Set(rutas
+      .filter((p) => p.startsWith(base) && p.length > base.length)
+      .map((p) => p.slice(base.length).split("/")[0]))]
+    .filter((n) => re.test(n)).sort((a, b) => (numero(a) - numero(b)) || a.localeCompare(b));
+  const archivos = (base, ext) => rutas
+    .filter((p) => p.startsWith(base) && !p.slice(base.length).includes("/") && ext.test(p))
+    .map((p) => ({ nombre: p.slice(base.length), ruta: p }));
+
+  const temas = hijos("", /^T\d+/).map((t) => ({
+    carpeta: t, ruta: `${t}/`,
+    ejercicios: archivos(`${t}/ejercicios/`, /\.(pdf|html)$/i),
+    capitulos: hijos(`${t}/`, /^C\d+/).map((c) => ({
+      carpeta: c, ruta: `${t}/${c}/`,
+      teoria: archivos(`${t}/${c}/teoria/`, /\.pdf$/i),
+      ejemplos: hijos(`${t}/${c}/ejemplos/`, /.*/)
+        .filter((e) => set.has(`${t}/${c}/ejemplos/${e}/index.html`))
+        .map((e) => ({ carpeta: e, titulo: bonito(e), ruta: `${t}/${c}/ejemplos/${e}/` })),
+    })),
+  }));
+  const extra = hijos("extra/", /.*/).filter((d) => !d.includes(".")).map((d) => ({
+    carpeta: d, titulo: bonito(d), ruta: `extra/${d}/`,
+    tieneIndex: set.has(`extra/${d}/index.html`),
+    archivos: archivos(`extra/${d}/`, /\.(pdf|html)$/i),
+  }));
+  return { generado: null, temas, extra };
+}
+
+/* ===== Pintado ===== */
+function pintar(datos) {
+  const main = $("#contenido");
+  const chips = $("#chips");
+  let html = "", htmlChips = "", totalEj = 0, totalCap = 0;
+
+  for (const tema of datos.temas) {
+    const nT = numero(tema.carpeta);
+    html += `<div class="tema-titulo"><h2>Tema ${nT} · ${esc(TEMAS[nT] || bonito(tema.carpeta))}</h2><span>${tema.capitulos.length} capítulos</span></div>`;
+
+    for (const cap of tema.capitulos) {
+      const n = numero(cap.carpeta);
+      const meta = CAPITULOS[n] || { titulo: bonito(cap.carpeta), desc: "", color: COLORES_EXTRA[n % COLORES_EXTRA.length] };
+      const id = cap.carpeta.toLowerCase().split("-")[0];       // c01, c02…
+      totalCap++; totalEj += cap.ejemplos.length;
+
+      htmlChips += `<a class="chip" href="#${id}" style="--c:${meta.color}" data-id="${id}"><span class="n">${n}</span>${esc(meta.titulo)}</a>`;
+
+      const teoria = cap.teoria.map((f) =>
+        `<a class="btn" href="${encodeURI(f.ruta)}" target="_blank" rel="noopener">📄 ${esc(cap.teoria.length > 1 ? nombrePdf(f.nombre) : "Teoría (PDF)")}</a>`).join("");
+
+      const ejemplos = cap.ejemplos.length
+        ? `<ul class="ejemplos">${cap.ejemplos.map((e, i) => `
+            <li class="ejemplo" data-busqueda="${esc(quitarTildes(`${e.titulo} ${e.carpeta} ${meta.titulo}`))}">
+              <div class="cab">
+                <span class="idx">${String(numero(e.carpeta) || i + 1).padStart(2, "0")}</span>
+                <div><h4>${esc(e.titulo)}</h4><p class="ruta">${esc(e.carpeta)}</p></div>
+              </div>
+              <div class="botones">
+                <a class="btn primario" href="${encodeURI(e.ruta)}" target="_blank" rel="noopener">▶ Ver en vivo</a>
+                <a class="btn" href="${URL_CODIGO}${encodeURI(e.ruta)}" target="_blank" rel="noopener">&lt;/&gt; Código</a>
+              </div>
+            </li>`).join("")}</ul>`
+        : `<p class="vacio">🕒 Próximamente: los ejemplos de este capítulo se publicarán a lo largo del curso.</p>`;
+
+      html += `
+        <section class="capitulo" id="${id}" style="--c:${meta.color}">
+          <header>
+            <div class="num">${n}</div>
+            <div>
+              <h3>${esc(meta.titulo)}</h3>
+              <p>${esc(meta.desc)}${meta.desc ? " · " : ""}${cap.ejemplos.length} ${cap.ejemplos.length === 1 ? "ejemplo" : "ejemplos"}</p>
+            </div>
+            <div class="acciones">${teoria}<a class="btn" href="${URL_CODIGO}${encodeURI(cap.ruta)}" target="_blank" rel="noopener">📂 Carpeta</a></div>
+          </header>
+          ${ejemplos}
+        </section>`;
+    }
+
+    if (tema.ejercicios.length) {
+      html += `
+        <section class="bloque-extra" id="ejercicios-${tema.carpeta.toLowerCase().split("-")[0]}">
+          <h3>📝 Ejercicios del tema</h3>
+          <p>Ejercicios de repaso de todos los capítulos.</p>
+          <div class="lista-archivos">${tema.ejercicios.map((f) =>
+            `<a class="btn primario" href="${encodeURI(f.ruta)}" target="_blank" rel="noopener">${esc(nombrePdf(f.nombre))}</a>`).join("")}</div>
+        </section>`;
+      htmlChips += `<a class="chip" href="#ejercicios-${tema.carpeta.toLowerCase().split("-")[0]}" style="--c:#475569" data-id="ejercicios-${tema.carpeta.toLowerCase().split("-")[0]}"><span class="n">✎</span>Ejercicios</a>`;
+    }
+  }
+
+  if (datos.extra && datos.extra.length) {
+    html += `<div class="tema-titulo"><h2>Material complementario</h2></div>`;
+    for (const x of datos.extra) {
+      const enlaces = [
+        x.tieneIndex ? `<a class="btn primario" href="${encodeURI(x.ruta)}" target="_blank" rel="noopener">▶ Abrir</a>` : "",
+        ...x.archivos.filter((f) => !/index\.html$/i.test(f.nombre)).map((f) =>
+          `<a class="btn" href="${encodeURI(f.ruta)}" target="_blank" rel="noopener">📄 ${esc(nombrePdf(f.nombre))}</a>`),
+        `<a class="btn" href="${URL_CODIGO}${encodeURI(x.ruta)}" target="_blank" rel="noopener">📂 Carpeta</a>`,
+      ].join("");
+      html += `<section class="bloque-extra"><h3>${esc(x.titulo)}</h3><div class="lista-archivos">${enlaces}</div></section>`;
+    }
+    htmlChips += `<a class="chip" href="#extra" style="--c:#4f46e5" data-id="extra"><span class="n">+</span>Extra</a>`;
+    html = html.replace('<div class="tema-titulo"><h2>Material complementario', '<div class="tema-titulo" id="extra"><h2>Material complementario');
+  }
+
+  html += `<p class="sin-resultados" id="sin-resultados" hidden>No hay ejemplos que coincidan con la búsqueda.</p>`;
+  main.innerHTML = html || `<p class="sin-resultados">Todavía no hay contenido publicado.</p>`;
+  chips.innerHTML = htmlChips;
+
+  $("#st-capitulos").textContent = totalCap;
+  $("#st-ejemplos").textContent = totalEj;
+  $("#st-fecha").textContent = datos.generado
+    ? new Date(datos.generado).toLocaleDateString("es-ES", { day: "numeric", month: "short", year: "numeric" })
+    : "—";
+
+  activarBuscador();
+  activarChipActual();
+}
+
+function activarBuscador() {
+  $("#buscar").addEventListener("input", (ev) => {
+    const q = quitarTildes(ev.target.value.trim());
+    let visibles = 0;
+    document.querySelectorAll(".capitulo").forEach((cap) => {
+      let enCap = 0;
+      cap.querySelectorAll(".ejemplo").forEach((li) => {
+        const ok = !q || li.dataset.busqueda.includes(q);
+        li.hidden = !ok; if (ok) enCap++;
+      });
+      const vacio = !cap.querySelector(".ejemplo");
+      cap.hidden = q && (vacio || enCap === 0);
+      visibles += enCap;
+    });
+    document.querySelectorAll(".bloque-extra, .tema-titulo").forEach((b) => (b.hidden = !!q));
+    $("#sin-resultados").hidden = !q || visibles > 0;
+  });
+}
+
+function activarChipActual() {
+  const chips = [...document.querySelectorAll(".chip")];
+  const obs = new IntersectionObserver((entradas) => {
+    entradas.forEach((e) => {
+      if (!e.isIntersecting) return;
+      chips.forEach((c) => c.classList.toggle("activo", c.dataset.id === e.target.id));
+    });
+  }, { rootMargin: "-90px 0px -70% 0px" });
+  chips.forEach((c) => { const s = document.getElementById(c.dataset.id); if (s) obs.observe(s); });
+}
+
+cargarDatos().then(pintar).catch((err) => {
+  console.error(err);
+  $("#contenido").innerHTML = `<div class="aviso"><strong>No se ha podido cargar la lista de ejemplos.</strong><br>
+    Si estás abriendo el archivo en local, usa la extensión Live Server de VS Code o consulta el
+    <a href="https://github.com/${USUARIO}/${REPO}">repositorio en GitHub</a>.</div>`;
+});
+</script>
+</body>
+</html>
