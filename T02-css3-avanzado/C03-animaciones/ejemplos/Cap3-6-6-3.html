@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejemplo de animation-range</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background-color: #f8fafc;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Espacio inicial para obligar a hacer scroll */
+    .espaciador {
+      height: 70vh;
+      display: flex;
+      align-items: center;
+      color: #64748b;
+      font-size: 1.2rem;
+    }
+
+    /* 1. Cada tarjeta tiene su propia línea de tiempo de vista */
+    .tarjeta {
+      width: 100%;
+      max-width: 500px;
+      height: 180px;
+      margin: 3rem 0;
+      background: #4f46e5;
+      color: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+      /* Vinculamos la animación a la visibilidad del elemento */
+      view-timeline-name: --tarjeta-vista;
+      animation: revelar linear both;
+      animation-timeline: --tarjeta-vista;
+	  /* animation-timeline: view(); */
+
+      /* 2. AQUÍ ESTÁ LA CLAVE:
+         La animación empieza cuando el elemento empieza a entrar (entry 0%)
+         y termina cuando ya ha entrado por completo (entry 100%). */
+      animation-range: entry 0% entry 100%;
+    }
+
+    /* Ejemplo alternativo: animar entrada Y salida en una sola línea */
+    .tarjeta-doble {
+      background: #0d9488;
+      animation: entrar-y-salir linear both;
+      animation-timeline: --tarjeta-vista;
+
+      /* Empieza al entrar (entry 0%) y termina justo al salir del todo (exit 100%) */
+      animation-range: entry 0% exit 100%;
+    }
+
+    /* Animación solo para el tramo de entrada */
+    @keyframes revelar {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Animación que cubre desde la entrada hasta la salida */
+    @keyframes entrar-y-salir {
+      0% {
+        opacity: 0;
+        transform: translateX(-100px);
+      }
+      30%, 70% { /* Durante el tramo 'contain' se mantiene estable */
+        opacity: 1;
+        transform: translateX(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="espaciador">↓ Haz scroll hacia abajo para ver las tarjetas ↓</div>
+
+  <div class="tarjeta">Tarjeta 1 (Solo entry)</div>
+  <div class="tarjeta">Tarjeta 2 (Solo entry)</div>
+  <div class="tarjeta tarjeta-doble">Tarjeta 3 (Entry + Exit)</div>
+  <div class="tarjeta">Tarjeta 4 (Solo entry)</div>
+
+  <div class="espaciador">↑ Fin del contenido ↑</div>
+
+</body>
+</html>

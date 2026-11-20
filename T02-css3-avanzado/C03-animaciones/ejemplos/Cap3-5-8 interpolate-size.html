@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Acordeón Native CSS hacia height: auto (Sin JS)</title>
+  <style>
+   
+   :root {
+      interpolate-size: allow-keywords;
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 3rem 1rem;
+    }
+
+    details {
+      max-width: 480px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    /* Estilo del botón de cabecera nativo */
+    summary {
+      padding: 1.2rem 1.5rem;
+      background-color: #2563eb;
+      color: #ffffff;
+      font-size: 1.05rem;
+      font-weight: bold;
+      cursor: pointer;
+      list-style: none; /* Oculta el triángulo por defecto */
+      user-select: none;
+    }
+
+    summary:hover {
+      background-color: #1d4ed8;
+    }
+
+    /* Icono indicador personalizado a la derecha sin usar flex */
+    summary::after {
+      content: "▼";
+      float: right;
+      font-size: 0.85rem;
+      rotate: 0deg;
+      transition: rotate 0.3s ease;
+    }
+
+    /* Gira la flecha cuando <details> tiene el atributo [open] */
+    details[open] summary::after {
+      rotate: 180deg;
+    }
+
+    /* 2. Estado CERRADO del contenido interno de <details> */
+    details::details-content {
+      height: 0;
+      overflow: hidden;
+      /* Transicionamos height y content-visibility con allow-discrete */
+      transition: height 0.4s ease, content-visibility 0.4s allow-discrete;
+    }
+
+    /* 3. Estado ABIERTO: anima directamente hasta su altura natural */
+    details[open]::details-content {
+      height: auto;
+    }
+
+    /* Contenedor interno para el relleno (padding) */
+    .contenido {
+      padding: 1.5rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    .contenido p {
+      margin: 0 0 0.8rem;
+    }
+
+    .contenido p:last-child {
+      margin-bottom: 0;
+    }
+  </style> 
+</head>
+<body>
+
+  <details>
+    <summary>Acordeón</summary>
+    
+    <div class="contenido">
+      <p><strong>Lorem</strong></p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque earum, velit, temporibus molestiae soluta enim dolorem ex quos perspiciatis, modi quam dignissimos sed at! Voluptas mollitia hic sit possimus maxime!</p>
+    </div>
+  </details>
+
+</body>
+</html>
+

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tarjeta Doble Cara con :active</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f9;
+      margin: 0;
+    }
+
+    
+    .escena {
+      width: 260px;
+      height: 340px;
+      perspective: 1000px;
+      cursor: pointer;
+      
+    }
+
+ 
+    .tarjeta {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;    
+      
+     /*  transform: rotateY(); */
+      scale: 1;
+      
+      transition: all 0.4s;
+    }
+
+    
+    .escena:hover .tarjeta {
+      scale: 1.03;
+    }
+
+    .escena:active .tarjeta {
+      transform: rotateY(180deg);
+    }
+
+    /* 3. Estilos compartidos para ambas caras */
+    .cara {
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      padding: 2rem;     
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+
+      /* Oculta la cara que da la espalda */
+      backface-visibility: hidden;
+    }
+
+   
+    .frente {
+      background-color: #ffffff;
+      color: #1e293b;
+    }
+
+   
+    .dorso {
+      background-color: #2563eb;
+      color: #ffffff;
+      rotate: y 180deg;
+    }
+
+    .icono {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .etiqueta {
+      margin-top: auto;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  
+  <div class="escena">
+    <div class="tarjeta">
+      
+      <div class="cara frente">
+        <div class="icono">💳</div>
+        <h3>Cara Frontal</h3>
+       
+      </div>
+
+      <div class="cara dorso">
+        <div class="icono">🔐</div>
+        <h3>Cara Oculta</h3>
+        
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
+

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Inicio - View Transitions</title>
+  <style>
+    /* 1. Activa la transición automática al navegar entre páginas del mismo sitio */
+    @view-transition {
+      navigation: auto;
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background-color: #f8fafc;
+      padding: 2rem;
+    }
+
+    .tarjeta {
+      width: 280px;
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    /* 2. Nombramos los elementos clave para que el navegador los conecte
+          con los de la segunda página */
+    .caja-color {
+      width: 100%;
+      height: 150px;
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
+      border-radius: 8px;
+      view-transition-name: hero-imagen;
+    }
+
+    h2 {
+      margin: 1rem 0 0 0;
+      view-transition-name: hero-titulo;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Ejemplo View transition</h1>
+  <p>Haz clic en la tarjeta para ver la transición fluida hacia la otra página:</p>
+
+  <a href="Cap3-7-2 copy.html" class="tarjeta">
+    <div class="caja-color"></div>
+    <h2>DIW 2DAWM</h2>
+  </a>
+
+</body>
+</html>

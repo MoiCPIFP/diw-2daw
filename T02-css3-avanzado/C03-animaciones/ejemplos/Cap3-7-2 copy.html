@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalle - View Transitions</title>
+  <style>
+    /* 1. También debe estar presente en la página de destino */
+    @view-transition {
+      navigation: auto;
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background-color: #f8fafc;
+      padding: 2rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* 2. Usamos exactamente los mismos nombres de transición.
+          El navegador calculará el cambio de tamaño y posición automáticamente. */
+    .banner-grande {
+      width: 100%;
+      height: 320px;
+      background: linear-gradient(135deg, #4f46e5, #06b6d4);
+      border-radius: 16px;
+      view-transition-name: hero-imagen;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      view-transition-name: hero-titulo;
+    }
+
+    .boton-volver {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.2rem;
+      background: #1e293b;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner-grande"></div>
+  <h1>DIW 2DAWM</h1>
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur fugit numquam nostrum rem. Voluptas harum, voluptate asperiores eaque sunt velit recusandae sint quis non itaque veniam accusamus animi illo sapiente.
+  </p>
+
+  <a href="Cap3-7-1 copy.html" class="boton-volver">← Volver al catálogo</a>
+
+</body>
+</html>

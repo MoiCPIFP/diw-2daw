@@ -1,0 +1,77 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Animación en Ruta con CSS offset-path</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background-color: #0f172a;
+      color: #ffffff;
+      margin: 0;
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+
+    
+   .escenario {
+      position: relative;
+      width: 500px;
+      height: 220px;
+      margin: 2rem auto;
+      background-color: #1e293b;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+         
+    .cohete {
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-size: 2.5rem;
+      line-height: 1;
+     
+      offset-path: path("M 40 160 C 160 20, 340 200, 460 60");
+     
+      offset-distance: 0%;
+
+     
+      offset-rotate: auto 45deg; /* +45deg porque el emoji 🚀 ya viene inclinado */
+
+      /* 4. Animación infinita de ida y vuelta */
+      animation: volar 3.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes volar {
+      to {
+        offset-distance: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Movimiento con offset-path</h2>
+  
+
+  <div class="escenario">
+  
+    <svg class="guia-visual" viewBox="0 0 500 220">
+      <path 
+        d="M 40 160 C 160 20, 340 200, 460 60" 
+        fill="none" 
+        stroke="#475569" 
+        stroke-width="3" 
+        stroke-dasharray="8 8" 
+      />
+    </svg>
+
+    
+    <div class="cohete">🚀</div>
+  </div>
+
+</body>
+</html>

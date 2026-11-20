@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema Solar con GSAP</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #0b0d17;
+      font-family: system-ui, -apple-system, sans-serif;
+      color: white;
+      overflow: hidden;
+    }
+
+    /* Contenedor del universo */
+    .espacio {
+      position: relative;
+      width: 320px;
+      height: 320px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    /* El Sol en el centro */
+    .sol {
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle, #ffd700, #ff8c00);
+      border-radius: 50%;
+      box-shadow: 0 0 40px #ff8c00;
+      z-index: 2;
+    }
+
+    /* Líneas de las órbitas (cajas invisibles que giran) */
+    .orbita {
+      position: absolute;
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+    }
+
+    .orbita-1 { width: 150px; height: 150px; }
+    .orbita-2 { width: 270px; height: 270px; }
+
+    /* Los planetas pegados al borde de cada órbita */
+    .planeta {
+      position: absolute;
+      top: -10px; /* Lo coloca justo encima de la línea */
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 50%;
+    }
+
+    .tierra {
+      width: 20px;
+      height: 20px;
+      background: #00d2ff;
+      box-shadow: 0 0 15px #00d2ff;
+    }
+
+    .marte {
+      width: 26px;
+      height: 26px;
+      background: #ff4b2b;
+      box-shadow: 0 0 15px #ff4b2b;
+      top: -13px;
+    }
+
+    /* Botón de control */
+    button {
+      background: #1e2235;
+      color: white;
+      border: 1px solid #3b4269;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #2b314d;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="espacio">
+    <!-- Sol -->
+    <div class="sol"></div>
+
+    <!-- Órbita 1 + Planeta Azul -->
+    <div class="orbita orbita-1">
+      <div class="planeta tierra"></div>
+    </div>
+
+    <!-- Órbita 2 + Planeta Rojo -->
+    <div class="orbita orbita-2">
+      <div class="planeta marte"></div>
+    </div>
+  </div>
+
+  <button id="btnVelocidad">Activar Velocidad Luz</button>
+
+  <!-- Tu archivo local de GSAP -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+
+  <script>
+    // 1. EL SOL LATE SUAVEMENTE
+    gsap.to(".sol", {
+      scale: 1.15,
+      duration: 1.5,
+      repeat: -1,      // Infinito
+      yoyo: true,      // Crece y encoge
+      ease: "sine.inOut"
+    });
+
+    // 2. LOS PLANETAS GIRAN EN ÓRBITA
+    // Truco: Rotamos el círculo de la órbita entera, no el planeta
+    const giroTierra = gsap.to(".orbita-1", {
+      rotation: 360,
+      duration: 4,     // Tarda 4 segundos en dar una vuelta
+      repeat: -1,
+      ease: "none"     // Velocidad constante, sin frenar
+    });
+
+    const giroMarte = gsap.to(".orbita-2", {
+      rotation: 360,
+      duration: 8,     // Tarda 8 segundos en dar una vuelta
+      repeat: -1,
+      ease: "none"
+    });
+
+    // 3. CONTROL DEL TIEMPO CON UN BOTÓN
+    const boton = document.getElementById("btnVelocidad");
+    let rapido = false;
+
+    boton.addEventListener("click", () => {
+      rapido = !rapido; // Cambia entre verdadero y falso
+
+      if (rapido) {
+        // Multiplica la velocidad x5 suavemente
+        gsap.to([giroTierra, giroMarte], { timeScale: 5, duration: 1 });
+        boton.textContent = "Volver a Velocidad Normal";
+      } else {
+        // Devuelve la velocidad a 1 (normal)
+        gsap.to([giroTierra, giroMarte], { timeScale: 1, duration: 1 });
+        boton.textContent = "Activar Velocidad Luz";
+      }
+    });
+  </script>
+
+</body>
+</html>

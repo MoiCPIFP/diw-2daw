@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Aviso Flotante con :target (Sin Flex)</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+    }
+
+   
+    .btn-mostrar {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+
+      padding: 0.8rem 1.6rem;
+      background-color: #2563eb;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+    }
+
+    .btn-mostrar:hover {
+      background-color: #1d4ed8;
+    }
+
+   
+    .aviso {
+      position: fixed;
+      top: 2rem;
+      left: 50%;
+      translate: -50% -15px;
+
+      background-color: #ffffff;
+      border-left: 5px solid #2563eb;
+      padding: 1.2rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      width: 320px;
+      
+      display: none;
+      opacity: 0;
+      z-index: 100;
+
+      transition: opacity 0.4s ease, translate 0.4s ease, display 0.4s allow-discrete;
+    }
+
+   
+    .aviso:target {
+      display: block;
+      opacity: 1;
+      translate: -50% 0;
+    }
+
+    
+    @starting-style {
+      .aviso:target {
+        opacity: 0;
+        translate: -50% -15px;
+      }
+    }
+
+   
+    .cerrar {
+     
+      margin-left: 1rem;
+      background: #fee2e2;
+      color: #dc2626;
+      text-decoration: none;
+      border-radius: 6px;
+      padding: 0.4rem 0.7rem;
+      font-weight: bold;
+    }
+
+    .cerrar:hover {
+      background: #fecaca;
+    }
+
+    .aviso p {
+      margin: 0.4rem 0 0;
+      font-size: 0.9rem;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+
+  
+  <div id="cerrar" style="display: none;"></div>
+
+  
+  <div class="aviso" id="mi-aviso">
+   
+   
+    <strong>¡Cambios guardados!</strong>
+	<a href="#cerrar" class="cerrar">✕</a>
+   
+  </div>
+
+  <!-- Botón central -->
+  <a href="#mi-aviso" class="btn-mostrar">
+    Mostrar aviso
+  </a>
+
+</body>
+</html>
+

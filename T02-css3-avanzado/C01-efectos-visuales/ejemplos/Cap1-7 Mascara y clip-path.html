@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+          <style>
+        .contenedor-estrella {
+          /* Ajusta el tamaño de la imagen */
+          display: block;    /* Cambia la imagen de inline a bloque */
+          margin: 200px auto;    /* 0 arriba/abajo, automático a los lados */
+          width: 300px;
+          height: 300px;
+       
+          /* Clip con máscara degradado */
+         /*  clip-path: ellipse(50% 50% at 50% 50%); 
+          mask-image: radial-gradient(circle, rgb(253, 253, 253) 10%, transparent 100%);
+         */   
+          /*Dergadado con imágenes repetidas */
+           /*  mask-image: radial-gradient(circle at 25px 25px, black 23px, transparent 25px);
+            mask-size: 50px 50px;  */
+          
+         /* Coordenadas de los 10 vértices de una estrella de 5 puntas estándar */
+          clip-path: polygon(
+            50% 0%, 
+            61% 35%, 
+            98% 35%, 
+            68% 57%, 
+            79% 91%, 
+            50% 70%, 
+            21% 91%, 
+            32% 57%, 
+            2% 35%, 
+            39% 35%
+          );
+          
+          /* Path creado con Inkscape: */
+          
+         /*  clip-path: path("m 116.7497,133.98355 c -1.3244,1.60538 -48.440897,13.77142 -50.376965,13.00793 -1.936068,-0.76348 -28.066463,-41.81443 -27.93862,-43.89167 0.127842,-2.07724 31.094872,-39.614159 33.109951,-40.134476 2.015079,-0.520317 47.284154,17.331532 48.401694,19.087199 1.11755,1.755667 -1.87166,50.325637 -3.19606,51.931017 z");
+ */
+        }
+      </style>
+    </head>
+    <body>
+    
+      <img 
+        class="contenedor-estrella" 
+        src="Img/img3.jpg" 
+        alt="Bosque"
+      >
+    
+    </body>
+    </html>
+    

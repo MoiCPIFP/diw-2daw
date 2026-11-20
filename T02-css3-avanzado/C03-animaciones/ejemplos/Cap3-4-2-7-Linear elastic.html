@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejemplos de CSS linear()</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+     
+      height: 100vh;
+      background-color: #f4f4f9;
+     
+    }
+
+    .caja-demo {
+      margin: 100px auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 240px;
+    }
+
+    .boton {
+      padding: 0.9rem 1.8rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: white;
+      background-color: #2563eb;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;      
+      
+     
+      transition: scale 0.6s linear(
+    0, 0.086, 0.218 2.1%, 0.862 6.5%, 1.001, 1.114, 1.219, 1.296 10.7%, 1.324,
+    1.346, 1.362, 1.37, 1.373, 1.373, 1.37, 1.364 14.5%, 1.345, 1.315 16.2%,
+    1.243 17.8%, 1.032 21.8%, 0.981, 0.941, 0.913, 0.891, 0.877 26.9%, 0.872,
+    0.869 27.8%, 0.868, 0.87, 0.875, 0.882 30.7%, 0.907 32.4%, 0.981 36.4%,
+    1.012 38.3%, 1.026, 1.036, 1.042, 1.046 42.7% 44.1%, 1.042, 1.033 47.4%,
+    1.007 51.3%, 0.996, 0.988, 0.984 57.5% 59%, 0.985 60.7%, 1.001 68.1%, 1.004,
+    1.006 72.2%, 1.005 75.7%, 1 82.9%, 0.998 86.7%, 1 );
+    }
+
+    .boton:hover {
+      scale: 1.25;
+    }
+
+    
+  </style>
+</head>
+<body>
+
+  
+  <div class="caja-demo">
+    <h3>Transición elástica </h3>
+   
+    <button class="boton">Pasa el ratón</button>
+  </div>
+
+  
+
+</body>
+</html>

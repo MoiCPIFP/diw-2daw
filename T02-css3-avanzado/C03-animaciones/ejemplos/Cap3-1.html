@@ -1,0 +1,70 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Documento sin título</title>
+
+	<style type="text/css">
+		:root{
+			font-family: sans-serif;
+		}
+
+		#container{
+			margin: auto;
+			background-color: transparent;
+			padding-top: 50px;
+		}
+		div {
+			margin-top: 20px;
+			margin-left: 40px;
+			align-content: center;
+			text-align: center;
+			width: 200px;
+			height: 100px;
+			background-color: red;
+		}
+
+		#sin {
+			width: 200px;
+			height: 100px;
+			background-color: rgba(0, 0, 0, 0.5);
+			position: absolute;
+
+		}
+
+		#transformado {
+			/* giro un número de grado sentido reloj*/
+			transform: rotate(10deg);
+			
+					
+			/* inclino la capa x , y grados */
+			/* transform: skew(35deg, 3deg); */
+
+			/* Escalado */
+			/* transform: scale(1.5, 0.6);
+			transform-origin: bottom left; */
+
+			/*Transladado */
+			/* transform: translate(50px, 5px); */
+
+			transform-origin: 50% 50%;
+		}
+
+	</style>
+
+</head>
+
+<body>
+	<h1>Transform</h1>
+	<div id="container">
+		
+		<div id="sin"></div>
+		<div id="transformado">Transformado</div>
+		
+	</div>
+
+</body>
+
+</html>

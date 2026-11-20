@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            width: 200px;
+            height: 200px;
+            display: inline-block;
+            margin: 10px;
+            border: 1px solid #888;
+            border-radius: 5px;
+
+        }
+        /* Rueda de color */
+        .rueda { border-radius: 50%; 
+                 background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);}
+        /* Gráfico circular: 40 %, 35 % y 25 % */
+        .tarta { border-radius: 50%; 
+                 background: conic-gradient(#f80 0 40%, #66f 40% 75%, #ccc 75%);}
+        /* Tablero de ajedrez con repeating-conic-gradient() */
+        .tablero { background: repeating-conic-gradient(#000 0 25%, #fff 0 50%); 
+                   background-size: 40px 40px;}
+    
+        .cono{
+                  background: conic-gradient(from 90deg at 30% 70%, #f80 , #66f , #ccc , #f80);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="rueda"></div>
+    <div class="tarta"></div>
+    <div class="tablero"></div>
+    <div class="cono"></div>
+    
+</body>
+</html>
