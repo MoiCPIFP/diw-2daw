@@ -1,5 +1,0 @@
-git add .
-
-git commit -m "Estructura del Tema 2: CSS3 Avanzado"
-
-git push
