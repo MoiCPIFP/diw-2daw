@@ -102,19 +102,7 @@ git pull
 
 ---
 
-## ⚙️ Cómo se actualiza la web
 
-La web de ejemplos se genera sola. Cada vez que se sube un cambio a `main`, GitHub Actions recorre las carpetas, crea `ejemplos.json` y publica la web en GitHub Pages.
-
-Para añadir un ejemplo nuevo solo hay que:
-
-1. Crear su carpeta dentro de `ejemplos/` del capítulo, con número delante: `T02-css3-avanzado/C04-flexbox/ejemplos/03-galeria-flex/`.
-2. Poner dentro un `index.html` con un `<title>` descriptivo (es el nombre que aparece en la web).
-3. Hacer `git add .`, `git commit` y `git push`.
-
-En un minuto aparece en la web.
-
----
 
 ## 🧰 Herramientas recomendadas
 
@@ -126,12 +114,6 @@ En un minuto aparece en la web.
 | [MDN Web Docs](https://developer.mozilla.org/es/docs/Web/CSS) | Referencia de CSS |
 | [Can I use](https://caniuse.com/) | Compatibilidad de propiedades entre navegadores |
 
----
-
-## 👩‍🏫 Profesorado
-
-**TU NOMBRE** · Módulo de Diseño de Interfaces Web
-📧 tu.correo@centro.es · 🏫 Nombre del centro
 
 ---
 
