@@ -94,15 +94,25 @@
     .btn.primario { background: var(--c, var(--indigo-900)); border-color: var(--c, var(--indigo-900)); color: #fff; }
     .btn.primario:hover { filter: brightness(1.1); color: #fff; }
 
-    .ejemplos { list-style: none; margin: 0; padding: 0 24px 24px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+    .ejemplos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
     .ejemplo { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); transition: transform .15s, box-shadow .15s, border-color .15s; }
     .ejemplo:hover { transform: translateY(-2px); border-color: var(--c); box-shadow: 0 10px 24px -12px rgba(15,23,42,.25); }
     .ejemplo .cab { display: flex; gap: 12px; align-items: flex-start; }
-    .ejemplo .idx { flex: none; font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--c); background: #fff; border: 1px solid var(--line); border-radius: 7px; padding: 3px 7px; }
+    .ejemplo .idx { flex: none; font-family: var(--mono); font-size: 12px; min-width: 34px; text-align: center; font-weight: 700; color: var(--c); background: #fff; border: 1px solid var(--line); border-radius: 7px; padding: 3px 7px; }
     .ejemplo h4 { margin: 0; font-size: 16px; line-height: 1.3; color: var(--ink); }
-    .ejemplo .ruta { margin: 3px 0 0; font-family: var(--mono); font-size: 12px; color: var(--muted); word-break: break-all; }
+    .ejemplo .ruta { margin: 3px 0 0; font-family: var(--mono); font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
     .ejemplo .botones { display: flex; gap: 8px; margin-top: auto; }
     .ejemplo .botones .btn { flex: 1; justify-content: center; }
+
+    .grupos { padding: 0 24px 24px; display: grid; gap: 22px; }
+    .grupo h5 { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .grupo h5::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+    .grupo h5 b { color: var(--c); font-size: 14px; letter-spacing: 0; }
+    .grupo .ejemplos { padding: 0; }
+    .ejemplo .sub { margin: 2px 0 0; font-size: 13px; color: var(--text); }
+    .enlaces { margin: 0 24px 24px; padding: 14px 16px; border-radius: 12px; background: var(--bg); border: 1px solid var(--line); }
+    .enlaces h5 { margin: 0 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+    .enlaces .lista-archivos .btn { font-weight: 500; }
     .vacio { margin: 0 24px 24px; padding: 18px; border: 1px dashed var(--line); border-radius: 12px; text-align: center; color: var(--muted); font-size: 15px; }
 
     .bloque-extra { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; margin-bottom: 24px; --c: var(--indigo-900); }
@@ -184,7 +194,8 @@
 const USUARIO = "MoiCPIFP";
 const REPO = "diw-2daw";
 const RAMA = "main";
-const URL_CODIGO = `https://github.com/${USUARIO}/${REPO}/tree/${RAMA}/`;
+const URL_REPO = `https://github.com/${USUARIO}/${REPO}`;
+const URL_CODIGO = `${URL_REPO}/tree/${RAMA}/`;
 
 /* Títulos, descripciones y colores de cada capítulo (clave: número de capítulo) */
 const CAPITULOS = {
@@ -223,28 +234,68 @@ async function cargarDatos() {
   return desdeArbol((await r.json()).tree.map((x) => x.path));
 }
 
+const RECURSOS = new Set(["img","imgs","image","images","imagen","imagenes","imágenes","css","js","script","scripts","video","videos","vídeos","audio","fonts","fuentes","assets","recursos","media","node_modules"]);
+const RE_CODIGO = /^cap(?:itulo)?[\s._-]*(\d+(?:[\s._-]+\d+)*)/i;
+
+function limpiarNombre(t) {
+  t = t.replace(/([a-záéíóúñ])([A-ZÁÉÍÓÚÑ])/g, "$1 $2").replace(/[-_]+/g, " ")
+       .split(/\s+/).filter((w) => w && !["copy", "copia"].includes(w.toLowerCase())).join(" ")
+       .replace(/^[\s.-]+|[\s.-]+$/g, "").replace(/\bia\b/gi, "IA");
+  return t ? t[0].toUpperCase() + t.slice(1) : t;
+}
+function crearEjemplo(base, ruta, esCarpeta, contexto) {
+  const m = base.match(RE_CODIGO);
+  const nums = m ? m[1].match(/\d+/g).map(Number) : [];
+  let nombre = limpiarNombre(m ? base.slice(m[0].length) : base.replace(/^\d+[-_ ]*/, ""));
+  if (esCarpeta) nombre = limpiarNombre(nombre.replace(/^ejemplo\s+/i, "")) || nombre;
+  const codigo = nums.join(".");
+  let titulo = !nums.length && contexto ? `${contexto} · ${nombre}`
+    : nombre && nombre.length < 4 && codigo ? `Ejemplo ${codigo} · ${nombre}`
+    : nombre || (codigo ? `Ejemplo ${codigo}` : base);
+  return { titulo, subtitulo: "", codigo, grupo: nums.slice(0, 2).join("."), carpeta: esCarpeta, ruta,
+           archivo: ruta.split("/ejemplos/")[1].replace(/\/$/, ""), _n: nums };
+}
 function desdeArbol(rutas) {
   const set = new Set(rutas);
-  const hijos = (base, re) => [...new Set(rutas
-      .filter((p) => p.startsWith(base) && p.length > base.length)
-      .map((p) => p.slice(base.length).split("/")[0]))]
-    .filter((n) => re.test(n)).sort((a, b) => (numero(a) - numero(b)) || a.localeCompare(b));
+  const hijos = (base) => [...new Set(rutas.filter((p) => p.startsWith(base) && p.length > base.length)
+      .map((p) => p.slice(base.length).split("/")[0]))];
+  const esDir = (p) => rutas.some((r) => r.startsWith(p + "/"));
   const archivos = (base, ext) => rutas
     .filter((p) => p.startsWith(base) && !p.slice(base.length).includes("/") && ext.test(p))
     .map((p) => ({ nombre: p.slice(base.length), ruta: p }));
+  const porNumero = (re) => (n) => re.test(n);
+  const ordenar = (a, b) => (numero(a) - numero(b)) || a.localeCompare(b);
 
-  const temas = hijos("", /^T\d+/).map((t) => ({
+  function recorrer(dir, lista, contexto, nivel) {
+    for (const n of hijos(dir + "/").sort()) {
+      const p = `${dir}/${n}`;
+      if (n.startsWith(".")) continue;
+      if (!esDir(p)) { if (/\.html$/i.test(n)) lista.push(crearEjemplo(n.replace(/\.html$/i, ""), p, false, contexto)); }
+      else if (!RECURSOS.has(n.toLowerCase()) && nivel < 3) {
+        if (set.has(`${p}/index.html`)) lista.push(crearEjemplo(n, `${p}/`, true, ""));
+        else recorrer(p, lista, contexto || limpiarNombre(n.replace(/^ejemplo\s+/i, "")), nivel + 1);
+      }
+    }
+  }
+  const comparar = (a, b) => {
+    if (!a._n.length !== !b._n.length) return a._n.length ? -1 : 1;
+    for (let i = 0; i < Math.max(a._n.length, b._n.length); i++) {
+      const x = a._n[i] ?? -1, y = b._n[i] ?? -1; if (x !== y) return x - y;
+    }
+    return a.titulo.localeCompare(b.titulo);
+  };
+
+  const temas = hijos("").filter(porNumero(/^T\d+/)).sort(ordenar).map((t) => ({
     carpeta: t, ruta: `${t}/`,
     ejercicios: archivos(`${t}/ejercicios/`, /\.(pdf|html)$/i),
-    capitulos: hijos(`${t}/`, /^C\d+/).map((c) => ({
-      carpeta: c, ruta: `${t}/${c}/`,
-      teoria: archivos(`${t}/${c}/teoria/`, /\.pdf$/i),
-      ejemplos: hijos(`${t}/${c}/ejemplos/`, /.*/)
-        .filter((e) => set.has(`${t}/${c}/ejemplos/${e}/index.html`))
-        .map((e) => ({ carpeta: e, titulo: bonito(e), ruta: `${t}/${c}/ejemplos/${e}/` })),
-    })),
+    capitulos: hijos(`${t}/`).filter(porNumero(/^C\d+/)).sort(ordenar).map((c) => {
+      const lista = [];
+      if (esDir(`${t}/${c}/ejemplos`)) recorrer(`${t}/${c}/ejemplos`, lista, "", 0);
+      lista.sort(comparar);
+      return { carpeta: c, ruta: `${t}/${c}/`, teoria: archivos(`${t}/${c}/teoria/`, /\.pdf$/i), ejemplos: lista, enlaces: [] };
+    }),
   }));
-  const extra = hijos("extra/", /.*/).filter((d) => !d.includes(".")).map((d) => ({
+  const extra = hijos("extra/").filter((d) => esDir(`extra/${d}`)).map((d) => ({
     carpeta: d, titulo: bonito(d), ruta: `extra/${d}/`,
     tieneIndex: set.has(`extra/${d}/index.html`),
     archivos: archivos(`extra/${d}/`, /\.(pdf|html)$/i),
@@ -273,19 +324,46 @@ function pintar(datos) {
       const teoria = cap.teoria.map((f) =>
         `<a class="btn" href="${encodeURI(f.ruta)}" target="_blank" rel="noopener">📄 ${esc(cap.teoria.length > 1 ? nombrePdf(f.nombre) : "Teoría (PDF)")}</a>`).join("");
 
-      const ejemplos = cap.ejemplos.length
-        ? `<ul class="ejemplos">${cap.ejemplos.map((e, i) => `
-            <li class="ejemplo" data-busqueda="${esc(quitarTildes(`${e.titulo} ${e.carpeta} ${meta.titulo}`))}">
+      const tarjeta = (e) => `
+            <li class="ejemplo" data-busqueda="${esc(quitarTildes(`${e.codigo} ${e.titulo} ${e.subtitulo || ""} ${e.archivo || ""} ${meta.titulo}`))}">
               <div class="cab">
-                <span class="idx">${String(numero(e.carpeta) || i + 1).padStart(2, "0")}</span>
-                <div><h4>${esc(e.titulo)}</h4><p class="ruta">${esc(e.carpeta)}</p></div>
+                ${e.codigo ? `<span class="idx">${esc(e.codigo)}</span>` : `<span class="idx">${e.carpeta ? "📁" : "•"}</span>`}
+                <div>
+                  <h4>${esc(e.titulo)}</h4>
+                  ${e.subtitulo ? `<p class="sub">${esc(e.subtitulo)}</p>` : ""}
+                  <p class="ruta">${esc(e.archivo || e.ruta)}</p>
+                </div>
               </div>
               <div class="botones">
                 <a class="btn primario" href="${encodeURI(e.ruta)}" target="_blank" rel="noopener">▶ Ver en vivo</a>
-                <a class="btn" href="${URL_CODIGO}${encodeURI(e.ruta)}" target="_blank" rel="noopener">&lt;/&gt; Código</a>
+                <a class="btn" href="${URL_REPO}/${e.carpeta === false ? "blob" : "tree"}/${RAMA}/${encodeURI(e.ruta)}" target="_blank" rel="noopener">&lt;/&gt; Código</a>
               </div>
-            </li>`).join("")}</ul>`
-        : `<p class="vacio">🕒 Próximamente: los ejemplos de este capítulo se publicarán a lo largo del curso.</p>`;
+            </li>`;
+
+      // Agrupar por apartado (1.1, 1.2…). Los que no tienen número van al final.
+      const grupos = new Map();
+      for (const e of cap.ejemplos) {
+        const g = e.grupo || "";
+        if (!grupos.has(g)) grupos.set(g, []);
+        grupos.get(g).push(e);
+      }
+      const hayGrupos = [...grupos.keys()].some((g) => g);
+      const ejemplos = !cap.ejemplos.length
+        ? `<p class="vacio">🕒 Próximamente: los ejemplos de este capítulo se publicarán a lo largo del curso.</p>`
+        : !hayGrupos
+          ? `<div class="grupos"><ul class="ejemplos">${cap.ejemplos.map(tarjeta).join("")}</ul></div>`
+          : `<div class="grupos">${[...grupos.entries()].map(([g, lista]) => `
+              <div class="grupo">
+                <h5>${g ? `Apartado <b>${esc(g)}</b>` : "Otros ejemplos"} · ${lista.length} ${lista.length === 1 ? "ejemplo" : "ejemplos"}</h5>
+                <ul class="ejemplos">${lista.map(tarjeta).join("")}</ul>
+              </div>`).join("")}</div>`;
+
+      const enlaces = (cap.enlaces || []).length
+        ? `<div class="enlaces"><h5>🔗 Enlaces de referencia</h5><div class="lista-archivos">${cap.enlaces.map((l) => {
+            let txt = l.url; try { const u = new URL(l.url); txt = u.hostname.replace(/^www\./, "") + u.pathname.replace(/\/$/, ""); } catch (_) {}
+            return `<a class="btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(txt)}</a>`;
+          }).join("")}</div></div>`
+        : "";
 
       html += `
         <section class="capitulo" id="${id}" style="--c:${meta.color}">
@@ -298,6 +376,7 @@ function pintar(datos) {
             <div class="acciones">${teoria}<a class="btn" href="${URL_CODIGO}${encodeURI(cap.ruta)}" target="_blank" rel="noopener">📂 Carpeta</a></div>
           </header>
           ${ejemplos}
+          ${enlaces}
         </section>`;
     }
 
@@ -352,6 +431,8 @@ function activarBuscador() {
         const ok = !q || li.dataset.busqueda.includes(q);
         li.hidden = !ok; if (ok) enCap++;
       });
+      cap.querySelectorAll(".grupo").forEach((g) => (g.hidden = !!q && !g.querySelector(".ejemplo:not([hidden])")));
+      cap.querySelectorAll(".enlaces").forEach((x) => (x.hidden = !!q));
       const vacio = !cap.querySelector(".ejemplo");
       cap.hidden = q && (vacio || enCap === 0);
       visibles += enCap;
